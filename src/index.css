@@ -1,0 +1,48 @@
+:root {
+  --poke-red: #a12121;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-size: 18px;
+  font-family: sans-serif;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+button {
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0.25rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: var(--poke-red);
+    color: white;
+  }
+}
+
+a {
+  color: var(--poke-red);
+  font-weight: bold;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.responsive {
+  width: 1200px;
+  margin: auto;
+  max-width: calc(100% - 2rem);
+}

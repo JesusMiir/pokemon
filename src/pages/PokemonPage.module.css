@@ -1,0 +1,14 @@
+.movesTable {
+  border-collapse: collapse;
+  /* Get rid of the 2px space between th/td */
+
+  & th,
+  td {
+    border: 1px solid gray;
+    padding: 0.5rem;
+  }
+}
+
+.types {
+  margin-bottom: 20px;
+}
