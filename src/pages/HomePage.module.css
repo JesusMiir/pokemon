@@ -1,0 +1,4 @@
+.containerOfPokemons {
+  display: flex;
+  flex-wrap: wrap;
+}

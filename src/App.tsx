@@ -28,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/user/:name" element={<UserPage />} />
           <Route path="/pokemon/:name" element={<PokemonPage />} />
           <Route path="/types/:name" element={<TypePage />} />
           <Route path="/moves/:name" element={<MovePage />} />

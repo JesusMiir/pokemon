@@ -20,7 +20,9 @@ type PokemonContextType = {
     pokemonIn: Pokemon,
     pokemonOut: Pokemon
   ) => PokmeonBagAPIResult;
+  findNumberOfPokemonInBag: (name: string) => number;
   removePokemon: (pokemon: Pokemon) => PokmeonBagAPIResult;
+  loadMorePokemon: () => void;
   goToNextPage: () => void;
   goToPrevPage: () => void;
   bag: PokemonBag;
@@ -49,9 +51,13 @@ const PokemonContext = createContext<PokemonContextType>({
   switchPokemon() {
     return {};
   },
+  findNumberOfPokemonInBag() {
+    return 0;
+  },
   removePokemon() {
     return {};
   },
+  loadMorePokemon() {},
   goToNextPage() {},
   goToPrevPage() {},
 });
@@ -65,6 +71,7 @@ export function PokemonContextProvider({ children }: { children: ReactNode }) {
   const [pokemons, setPokemons] = useState<BrowsePokemon[]>([]);
   const [page, setPage] = useState(0);
   const [bag, setBag] = useState(getPokemonBag);
+  const [limit, setLimit] = useState(20);
 
   useEffect(() => {
     async function fetchPokemonNames() {
@@ -82,14 +89,14 @@ export function PokemonContextProvider({ children }: { children: ReactNode }) {
     async function fetchPage() {
       // Waiting for the HTTP response
       const res = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${page * 20}`
+        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${page * 20}`
       );
       // Waiting for the response body to finish streaming
       const data = await res.json();
       setPokemons(data.results);
     }
     fetchPage();
-  }, [page]);
+  }, [page, limit]);
 
   useEffect(() => {
     // Update localStorage here
@@ -120,12 +127,29 @@ export function PokemonContextProvider({ children }: { children: ReactNode }) {
     pokemonIn: Pokemon,
     pokemonOut: Pokemon
   ): PokmeonBagAPIResult => {
-    const index = bag.pokemons.findIndex((p) => p.name == pokemonOut.name);
+    const index = bag.pokemons.findIndex((p) => p.id == pokemonOut.id);
     if (index == -1) return { error: "" };
     let newBag = structuredClone(bag);
     newBag.pokemons[index] = pokemonIn;
     setBag(newBag);
     return {};
+  };
+
+  /*
+      arr.map(x => x + 1)             OK
+      arr.map(x => {return x + 1})    OK
+      arr.map(x => {x + 1})           NOT OK
+  */
+
+  const findNumberOfPokemonInBag = (name: string) => {
+    const result = bag.pokemons.filter((pokemon) => {
+      return name == pokemon.name;
+    });
+    return result.length;
+  };
+
+  const loadMorePokemon = async () => {
+    setLimit(limit + 20);
   };
 
   const context: PokemonContextType = {
@@ -135,7 +159,9 @@ export function PokemonContextProvider({ children }: { children: ReactNode }) {
     bag,
     addPokemon,
     switchPokemon,
+    findNumberOfPokemonInBag,
     removePokemon,
+    loadMorePokemon,
     goToNextPage() {
       setPage(page + 1);
     },

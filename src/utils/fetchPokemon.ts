@@ -1,4 +1,6 @@
 import type { Pokemon } from "../types";
+// npm i uuid
+import { v4 } from "uuid";
 
 export async function fetchPokemon(name: string): Promise<Pokemon | null> {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
@@ -8,5 +10,6 @@ export async function fetchPokemon(name: string): Promise<Pokemon | null> {
   }
 
   const data = await res.json();
+  data.id = v4();
   return data;
 }
