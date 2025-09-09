@@ -7,6 +7,7 @@ export type Pokemon = {
   id: string;
   name: string;
   sprites: {
+    other: any;
     front_default: string;
   };
   moves: PokemonMove[];

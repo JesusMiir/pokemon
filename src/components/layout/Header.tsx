@@ -64,7 +64,7 @@ function Header() {
         {/* end of .left */}
         <div className="right">
           <nav>
-            <Link to="/user">Your Pokemons</Link>
+            <Link to="/user">My Pokemons</Link>
           </nav>
           <p>{bag.pokemons.length} / 6</p>
         </div>

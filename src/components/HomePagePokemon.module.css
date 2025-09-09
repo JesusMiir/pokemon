@@ -1,0 +1,278 @@
+:root {
+  /* Light theme */
+  --card: #ffffff;
+  --card2: #f9fafb;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --ring: 210 100% 40%;
+  --radius: 16px;
+  --border: rgba(0, 0, 0, 0.08);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Card container */
+.card {
+  position: relative;
+  isolation: isolate; /* allow proper layered children */
+  list-style: none;
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  pointer-events: none;
+  background: radial-gradient(
+    120px 80px at 70% 10%,
+    rgba(0, 0, 0, 0.04),
+    transparent 60%
+  );
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: hsla(var(--ring) / 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Whole-card link */
+.stretchedLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius);
+  outline: none;
+}
+.stretchedLink:focus-visible {
+  box-shadow: 0 0 0 3px hsla(var(--ring) / 0.6);
+}
+
+/* Header line */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.id {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3px;
+}
+
+/* Favorite (kept above link) */
+.fav {
+  all: unset;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 10px;
+  line-height: 1;
+  font-size: 16px;
+  color: #ef4444;
+}
+.fav:hover {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+/* Image */
+.img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.12));
+  margin: 6px auto 8px;
+  transition: transform 0.2s ease;
+}
+.card:hover .img {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Name */
+.name {
+  margin: 2px 0 8px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  text-transform: capitalize;
+}
+
+/* Types */
+.types {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.type {
+  --bg: #e5e7eb;
+  --fg: #111827;
+  background: var(--bg);
+  color: var(--fg);
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 0.78rem;
+  text-transform: capitalize;
+}
+
+/* Add button (above link via z-index) */
+.addBtn {
+  position: relative;
+  z-index: 2;
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  transition: transform 0.1s ease, filter 0.15s ease;
+}
+.addBtn:hover {
+  filter: brightness(0.97);
+}
+.addBtn:active {
+  transform: scale(0.98);
+}
+
+/* Loading skeleton */
+.skeleton .shimmer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #eef2f7;
+}
+.imgSkeleton {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  background: #eef2f7;
+  margin: 6px 0 8px;
+}
+.skeleton .name {
+  height: 18px;
+  border-radius: 8px;
+  background: #eef2f7;
+}
+.skeleton .type {
+  width: 64px;
+  height: 22px;
+}
+.skeleton .addBtn {
+  height: 40px;
+  border-radius: 12px;
+  background: #eef2f7;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.06),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: sh 1.4s infinite;
+  border-radius: inherit;
+}
+@keyframes sh {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Error state */
+.error {
+  border-color: rgba(239, 68, 68, 0.35);
+}
+.errorText {
+  color: #b91c1c;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Type color accents (light-friendly palette) */
+.type_normal {
+  --bg: #e5e7eb;
+  --fg: #111827;
+}
+.type_fire {
+  --bg: #fde8e8;
+  --fg: #7f1d1d;
+}
+.type_water {
+  --bg: #e0f2fe;
+  --fg: #0c4a6e;
+}
+.type_electric {
+  --bg: #fef9c3;
+  --fg: #713f12;
+}
+.type_grass {
+  --bg: #dcfce7;
+  --fg: #14532d;
+}
+.type_ice {
+  --bg: #e0f2fe;
+  --fg: #0c4a6e;
+}
+.type_fighting {
+  --bg: #fee2e2;
+  --fg: #7f1d1d;
+}
+.type_poison {
+  --bg: #f3e8ff;
+  --fg: #581c87;
+}
+.type_ground {
+  --bg: #fef3c7;
+  --fg: #7c2d12;
+}
+.type_flying {
+  --bg: #e0e7ff;
+  --fg: #1e1b4b;
+}
+.type_psychic {
+  --bg: #ffe4e6;
+  --fg: #831843;
+}
+.type_bug {
+  --bg: #ecfccb;
+  --fg: #365314;
+}
+.type_rock {
+  --bg: #e5e7eb;
+  --fg: #1f2937;
+}
+.type_ghost {
+  --bg: #ede9fe;
+  --fg: #312e81;
+}
+.type_dragon {
+  --bg: #e0e7ff;
+  --fg: #1e1b4b;
+}
+.type_dark {
+  --bg: #e5e7eb;
+  --fg: #111827;
+}
+.type_steel {
+  --bg: #e5e7eb;
+  --fg: #1f2937;
+}
+.type_fairy {
+  --bg: #ffe4f1;
+  --fg: #701a3f;
+}
