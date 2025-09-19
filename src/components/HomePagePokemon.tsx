@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import type { BrowsePokemon, Pokemon } from "../types";
+import type { BrowsePokemon, Pokemon, PokemonBag } from "../types";
 import { fetchPokemon } from "../utils/fetchPokemon";
 import styles from "./HomePagePokemon.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Modal from "./Modal";
 
 // ⚠️ Use the hook name you actually have in your project.
 // If your file exports usePokmeonContext (with the typo), keep that import.
@@ -16,8 +17,13 @@ type HomePagePokemonProps = {
 
 export default function HomePagePokemon({ pokemon }: HomePagePokemonProps) {
   const [fullPokemon, setFullPokemon] = useState<Pokemon | null>(null);
+  const [pokemonToBeSwitchedOut, setPokemonToBeSwitchedOut] =
+    useState<Pokemon | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { addPokemon } = usePokemonContext();
+  const [bagIsFullModalOpen, setBagIsFullModalOpen] = useState(false);
+  const { addPokemon, bag, switchPokemon } = usePokemonContext();
+
+  const navigate = useNavigate();
 
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -91,50 +97,97 @@ export default function HomePagePokemon({ pokemon }: HomePagePokemonProps) {
 
   const to = `/pokemon/${fullPokemon!.name}`;
 
+  function handleSwitch() {
+    if (!fullPokemon || !pokemonToBeSwitchedOut) {
+      return;
+    }
+    switchPokemon(fullPokemon, pokemonToBeSwitchedOut);
+  }
+
   return (
-    <li className={styles.card} role="listitem" title={cap(fullPokemon!.name)}>
-      {/* Stretched link = whole-card is clickable */}
-      <Link
-        to={to}
-        className={styles.stretchedLink}
-        aria-label={`Open ${fullPokemon!.name} page`}
-      />
-
-      <img
-        className={styles.img}
-        src={img}
-        alt={fullPokemon!.name}
-        loading="lazy"
-        width={256}
-        height={256}
-        onError={(e) => {
-          (e.currentTarget as HTMLImageElement).src =
-            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png";
-        }}
-      />
-
-      <p className={styles.name}>{cap(fullPokemon!.name)}</p>
-
-      <div className={styles.types}>
-        {types.map((t) => (
-          <span key={t} className={`${styles.type} ${styles[`type_${t}`]}`}>
-            {cap(t)}
-          </span>
-        ))}
-      </div>
-
-      <button
-        className={styles.addBtn}
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation(); // beat the stretched link
-          addPokemon(fullPokemon!); // context action
-        }}
-        aria-label={`Add ${fullPokemon!.name}`}
+    <>
+      <Modal
+        isOpen={bagIsFullModalOpen}
+        close={() => setBagIsFullModalOpen(false)}
       >
-        Add
-      </button>
-    </li>
+        <h3>Your bag is full</h3>
+        <br />
+        <p>
+          You cannot have more than 6 Pokemon. Would you like to select one to
+          remove?
+        </p>
+        <br />
+        <div className={styles.pokemonBagList}>
+          {bag.pokemons.map((pokemon) => {
+            let classes = "";
+            if (pokemon.id == pokemonToBeSwitchedOut?.id)
+              classes += " " + styles.selected;
+            return (
+              <button
+                key={pokemon.id}
+                className={classes}
+                onClick={() => setPokemonToBeSwitchedOut(pokemon)}
+              >
+                <img src={pokemon.sprites.front_default} alt="" />
+              </button>
+            );
+          })}
+        </div>
+        <br />
+        <button onClick={handleSwitch} style={{ marginRight: "10px" }}>
+          Accept
+        </button>
+        <button onClick={() => setBagIsFullModalOpen(false)}>Cancel</button>
+      </Modal>
+      <li
+        className={styles.card}
+        role="listitem"
+        title={cap(fullPokemon!.name)}
+      >
+        {/* Stretched link = whole-card is clickable */}
+        <Link
+          to={to}
+          className={styles.stretchedLink}
+          aria-label={`Open ${fullPokemon!.name} page`}
+        />
+
+        <img
+          className={styles.img}
+          src={img}
+          alt={fullPokemon!.name}
+          loading="lazy"
+          width={256}
+          height={256}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src =
+              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png";
+          }}
+        />
+
+        <p className={styles.name}>{cap(fullPokemon!.name)}</p>
+
+        <div className={styles.types}>
+          {types.map((t) => (
+            <span key={t} className={`${styles.type} ${styles[`type_${t}`]}`}>
+              {cap(t)}
+            </span>
+          ))}
+        </div>
+
+        <button
+          className={styles.addBtn}
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation(); // beat the stretched link
+            const { error } = addPokemon(fullPokemon!); // context action
+            if (error == "Bag full") setBagIsFullModalOpen(true);
+          }}
+          aria-label={`Add ${fullPokemon!.name}`}
+        >
+          Add
+        </button>
+      </li>
+    </>
   );
 }

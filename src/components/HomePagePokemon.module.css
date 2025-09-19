@@ -276,3 +276,36 @@
   --bg: #ffe4f1;
   --fg: #701a3f;
 }
+
+.pokemonBagList {
+  display: flex;
+  flex-wrap: wrap; /* allow items to wrap onto the next line */
+  gap: 8px;
+}
+
+.pokemonBagList > button {
+  flex: 0 0 calc(50% - 8px);
+  box-sizing: border-box;
+  text-align: center;
+  padding: 6px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.pokemonBagList > button:hover {
+  background: #999;
+}
+
+.pokemonBagList > button.selected {
+  border: 2px solid #a12121;
+}
+
+.pokemonBagList {
+  column-count: 2;
+  column-gap: 12px;
+}
+
+.selected {
+  background-color: #16a34a;
+}

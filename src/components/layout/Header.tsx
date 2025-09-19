@@ -49,8 +49,17 @@ import { Link } from "react-router-dom";
     SWE                   0           2         1
 */
 
+import { v4 } from "uuid";
+import { type Pokemon } from "../../types";
+
 function Header() {
   const { bag } = usePokmeonContext();
+
+  let pokemonSlots: (Pokemon | null)[] = [];
+
+  for (let i = 0; i < 6; i++) {
+    pokemonSlots.push(bag.pokemons[i] || null);
+  }
 
   return (
     <header className={styles.header}>
@@ -66,7 +75,31 @@ function Header() {
           <nav>
             <Link to="/user">My Pokemons</Link>
           </nav>
-          <p>{bag.pokemons.length} / 6</p>
+          <div className="pokemon-sprites">
+            {pokemonSlots.map((p) => {
+              return (
+                <div
+                  style={{
+                    backgroundColor: p ? "#FFF" : "#ccc",
+                    display: "inline-block",
+                    marginLeft: "10px",
+                    borderRadius: "10px",
+                    minWidth: "70px",
+                    minHeight: "70px",
+                  }}
+                  key={p?.id || v4()}
+                >
+                  {p && (
+                    <img
+                      src={p.sprites.front_default}
+                      alt=""
+                      style={{ width: "70px", display: "block" }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </header>

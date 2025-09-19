@@ -1,0 +1,20 @@
+.modalBackdrop {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalWindow {
+  margin: auto;
+  margin-top: 30px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px #666;
+  width: 500px;
+  max-width: 95%;
+  background-color: white;
+}
