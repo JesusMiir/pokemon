@@ -63,12 +63,16 @@ export default function HomePagePokemon({ pokemon }: HomePagePokemonProps) {
           <span className={`${styles.id} ${styles.shimmer}`} />
           <span className={`${styles.fav} ${styles.shimmer}`} />
         </div>
-        <div className={`${styles.imgSkeleton} ${styles.shimmer}`} />
+
+        <div className={`${styles.img} ${styles.shimmer}`} />
+
         <div className={`${styles.name} ${styles.shimmer}`} />
+
         <div className={styles.types}>
           <span className={`${styles.type} ${styles.shimmer}`} />
           <span className={`${styles.type} ${styles.shimmer}`} />
         </div>
+
         <div className={`${styles.addBtn} ${styles.shimmer}`} />
       </li>
     );

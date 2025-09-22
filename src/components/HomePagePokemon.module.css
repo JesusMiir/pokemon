@@ -1,5 +1,4 @@
 :root {
-  /* Light theme */
   --card: #ffffff;
   --card2: #f9fafb;
   --text: #1f2937;
@@ -10,10 +9,10 @@
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Card container */
 .card {
+  width: 100%;
   position: relative;
-  isolation: isolate; /* allow proper layered children */
+  isolation: isolate;
   list-style: none;
   background: linear-gradient(180deg, var(--card), var(--card2));
   border: 1px solid var(--border);
@@ -41,7 +40,6 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Whole-card link */
 .stretchedLink {
   position: absolute;
   inset: 0;
@@ -53,7 +51,6 @@
   box-shadow: 0 0 0 3px hsla(var(--ring) / 0.6);
 }
 
-/* Header line */
 .header {
   display: flex;
   align-items: center;
@@ -66,7 +63,6 @@
   letter-spacing: 0.3px;
 }
 
-/* Favorite (kept above link) */
 .fav {
   all: unset;
   position: relative;
@@ -82,7 +78,6 @@
   background: rgba(239, 68, 68, 0.12);
 }
 
-/* Image */
 .img {
   width: 100%;
   aspect-ratio: 1/1;
@@ -96,7 +91,6 @@
   transform: translateY(-2px) scale(1.02);
 }
 
-/* Name */
 .name {
   margin: 2px 0 8px;
   font-weight: 800;
@@ -104,7 +98,6 @@
   text-transform: capitalize;
 }
 
-/* Types */
 .types {
   display: flex;
   gap: 6px;
@@ -122,7 +115,6 @@
   text-transform: capitalize;
 }
 
-/* Add button (above link via z-index) */
 .addBtn {
   position: relative;
   z-index: 2;
@@ -145,24 +137,22 @@
   transform: scale(0.98);
 }
 
-/* Loading skeleton */
-.skeleton .shimmer {
+.skeleton .img,
+.skeleton .name,
+.skeleton .type,
+.skeleton .addBtn {
   position: relative;
   overflow: hidden;
+  background: #eef2f7;
   border-radius: 10px;
-  background: #eef2f7;
 }
-.imgSkeleton {
-  width: 100%;
-  aspect-ratio: 1/1;
+.skeleton .img {
+  margin: 6px auto 8px;
   border-radius: 12px;
-  background: #eef2f7;
-  margin: 6px 0 8px;
 }
 .skeleton .name {
   height: 18px;
   border-radius: 8px;
-  background: #eef2f7;
 }
 .skeleton .type {
   width: 64px;
@@ -171,8 +161,8 @@
 .skeleton .addBtn {
   height: 40px;
   border-radius: 12px;
-  background: #eef2f7;
 }
+
 .shimmer::after {
   content: "";
   position: absolute;
@@ -193,7 +183,6 @@
   }
 }
 
-/* Error state */
 .error {
   border-color: rgba(239, 68, 68, 0.35);
 }
@@ -203,7 +192,6 @@
   font-size: 0.9rem;
 }
 
-/* Type color accents (light-friendly palette) */
 .type_normal {
   --bg: #e5e7eb;
   --fg: #111827;
@@ -279,10 +267,9 @@
 
 .pokemonBagList {
   display: flex;
-  flex-wrap: wrap; /* allow items to wrap onto the next line */
+  flex-wrap: wrap;
   gap: 8px;
 }
-
 .pokemonBagList > button {
   flex: 0 0 calc(50% - 8px);
   box-sizing: border-box;
@@ -292,18 +279,11 @@
   border-radius: 6px;
   background: #fafafa;
 }
-
 .pokemonBagList > button:hover {
   background: #999;
 }
-
 .pokemonBagList > button.selected {
   border: 2px solid #a12121;
-}
-
-.pokemonBagList {
-  column-count: 2;
-  column-gap: 12px;
 }
 
 .selected {

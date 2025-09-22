@@ -53,12 +53,16 @@ import { v4 } from "uuid";
 import { type Pokemon } from "../../types";
 
 function Header() {
-  const { bag } = usePokmeonContext();
+  const { bag, removePokemon } = usePokmeonContext();
 
   let pokemonSlots: (Pokemon | null)[] = [];
 
   for (let i = 0; i < 6; i++) {
     pokemonSlots.push(bag.pokemons[i] || null);
+  }
+
+  function handelX(pokemon: Pokemon) {
+    removePokemon(pokemon);
   }
 
   return (
@@ -89,6 +93,9 @@ function Header() {
                   }}
                   key={p?.id || v4()}
                 >
+                  <div className={styles.x}>
+                    {p != null && <button onClick={() => handelX(p)}>x</button>}
+                  </div>
                   {p && (
                     <img
                       src={p.sprites.front_default}

@@ -46,16 +46,18 @@ function HomePage() {
   return (
     <>
       <div className={styles.containerOfPokemons}>
-        {pokemons.map((pokemon) => {
-          const count = findNumberOfPokemonInBag(pokemon.name);
-          return (
-            <HomePagePokemon
-              key={pokemon.name}
-              pokemon={pokemon}
-              count={count}
-            />
-          );
-        })}
+        <ul className={styles.grid}>
+          {pokemons.map((pokemon) => {
+            const count = findNumberOfPokemonInBag(pokemon.name);
+            return (
+              <HomePagePokemon
+                key={pokemon.name}
+                pokemon={pokemon}
+                count={count}
+              />
+            );
+          })}
+        </ul>
       </div>
       {/* {page > 0 && <button onClick={goToPrevPage}>&lt;</button>}
       {page}
